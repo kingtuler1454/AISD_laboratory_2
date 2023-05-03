@@ -1,0 +1,74 @@
+а)						comparsion	copy		time
+The  bubble sorting  on vector size 1000	966232 		757713		0.0435961
+The  bubble sorting  on vector size 2000	3907645 	3045740		0.288235
+The  bubble sorting  on vector size 3000	8825457 	6748646		0.385006
+The  bubble sorting  on vector size 10000	99108088 	74733973	3.36455
+The  bubble sorting  on vector size 25000	240898184 	390246637	20.5689
+The  bubble sorting  on vector size 50000	93090056 	157736489	82.8393
+The  bubble sorting  on vector size 100000	343141159 	232455264	327.346
+
+The shaker sorting  on vector size 1000		499500 		764466		0.0167684
+The shaker sorting  on vector size 2000		1999000 	3012053		0.0680409
+The shaker sorting  on vector size 3000		4498500 	6718762		0.15087
+The shaker sorting  on vector size 10000	49995000 	75027102	1.70139
+The shaker sorting  on vector size 25000	312487500 	389496099	10.5984
+The shaker sorting  on vector size 50000	390981540 	158617684	42.6054
+The shaker sorting  on vector size 100000	154010755 	267306754	166.799
+
+The  comb sorting  on vector size 1000		22034 		12864		0.00179378
+The  comb sorting  on vector size 2000		49994 		28839		0.00408362
+The  comb sorting  on vector size 3000		80952 		45786		0.00307116
+The  comb sorting  on vector size 10000		329653 		181473		0.0106968
+The  comb sorting  on vector size 25000		924018 		503323		0.0307223
+The  comb sorting  on vector size 50000		1997961 	1106469		0.0630349
+The  comb sorting  on vector size 100000	4295797 	2361216		0.137311
+
+б)
+The  bubble sorting  on vector size 1000	999 		0		3.23e-05
+The  bubble sorting  on vector size 2000	1999 		0		4.73e-05
+The  bubble sorting  on vector size 3000	2999 		0		7.1e-05
+The  bubble sorting  on vector size 10000	9999 		0		0.0002365
+The  bubble sorting  on vector size 25000	24999 		0		0.0005863
+The  bubble sorting  on vector size 50000	49999 		0		0.0011741
+The  bubble sorting  on vector size 100000	99999 		0		0.0023416
+
+The shaker sorting  on vector size 1000		499500 		0		0.0111717
+The shaker sorting  on vector size 2000		1999000 	0		0.0379328
+The shaker sorting  on vector size 3000		4498500 	0		0.0766227
+The shaker sorting  on vector size 10000	49995000 	0		0.851444
+The shaker sorting  on vector size 25000	312487500 	0		5.34083
+The shaker sorting  on vector size 50000	1249975000 	0		22.3072
+The shaker sorting  on vector size 100000	704982704 	0		96.1654
+
+The  comb sorting  on vector size 1000		22034 		0		0.0006823
+The  comb sorting  on vector size 2000		49994 		0		0.0012102
+The  comb sorting  on vector size 3000		80952 		0		0.002003
+The  comb sorting  on vector size 10000		329653 		0		0.0097732
+The  comb sorting  on vector size 25000		924018 		0		0.025278
+The  comb sorting  on vector size 50000		1997961 	0		0.0564543
+The  comb sorting  on vector size 100000	4295797 	0		0.104956
+
+в)
+The  bubble sorting  on vector size 1000	999000 		1498500		0.0429767
+The  bubble sorting  on vector size 2000	3998000 	5997000		0.244861
+The  bubble sorting  on vector size 3000	8997000 	13495500	0.356845
+The  bubble sorting  on vector size 10000	99990000 	149985000	4.20979
+The  bubble sorting  on vector size 25000	624975000 	937462500	28.572
+The  bubble sorting  on vector size 50000	1795017296 	545042296	105.579
+The  bubble sorting  on vector size 100000	1409965408 	2114948112	420.846
+
+The shaker sorting  on vector size 1000		499500 		1498500		0.0258216
+The shaker sorting  on vector size 2000		1999000 	5997000		0.102344
+The shaker sorting  on vector size 3000		4498500 	13495500	0.216094
+The shaker sorting  on vector size 10000	49995000 	149985000	2.39768
+The shaker sorting  on vector size 25000	312487500 	937462500	15.6619
+The shaker sorting  on vector size 50000	1249975000 	545042296	62.8677
+The shaker sorting  on vector size 100000	704982704 	2114948112	264.383
+
+The  comb sorting  on vector size 1000		22034 		4584		0.0019909
+The  comb sorting  on vector size 2000		49994 		10020		0.0033514
+The  comb sorting  on vector size 3000		80952 		15432		0.0031985
+The  comb sorting  on vector size 10000		329653 		57492		0.0148887
+The  comb sorting  on vector size 25000		924018 		155910		0.0266885
+The  comb sorting  on vector size 50000		1997961 	329382		0.052952
+The  comb sorting  on vector size 100000	4295797 	698166		0.117053
