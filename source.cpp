@@ -1,9 +1,10 @@
-/*#Функции сортировки должны принимать std::vector<int> -сортируемый набор элементов.
-#https://docs.google.com/document/d/1L-doO_8pcQJ2gBpHUw7w7zEiB3auwPjt/edit
-#. Сортировка пузырьком
-#  Шейкерная сортировка
-#0. Сортировка расчёской
-1 000, 2 000, 3 000, …, 10 000,  25000, 50000, 100000:
+/*
+#https://docs.google.com/document/d/1L-doO_8pcQJ2gBpHUw7w7zEiB3auwPjt/edit условие
+# Сортировка пузырьком
+# Шейкерная сортировка
+# Сортировка расчёской
+
+РЕЗУЛЬТАТЫ: https://docs.google.com/spreadsheets/d/1hvk_9GdfkvkoLMld9ARclcZj3DUutvb1MY5hLaIZMXs/edit?usp=sharing
 */
 #include <iostream>
 #include <vector>
