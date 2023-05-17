@@ -1,74 +1,22 @@
-/*#Ôóíêöèè ñîðòèðîâêè äîëæíû ïðèíèìàòü std::vector<int> -ñîðòèðóåìûé íàáîð ýëåìåíòîâ.
-#https://docs.google.com/document/d/1L-doO_8pcQJ2gBpHUw7w7zEiB3auwPjt/edit
-#. Ñîðòèðîâêà âûáîðîì
-#   Ñîðòèðîâêà Øåëëà
-#0. Ñîðòèðîâêà åñòåñòâåííûì
-äâóõïóòåâûì ñëèÿíèåì
-
-1 000, 2 000, 3 000, …, 10 000,  25000, 50000, 100000:
-*/
-#include <iostream>
-#include <vector>
-#include <chrono>
-#include <fstream>
-using namespace std::chrono;
-
-struct stats {
-	long comparison_count = 0;
-	long copy_count = 0;
-	double time = 0;
-};
-size_t lcg() {
-	static size_t x = 0;
-	x = (1021 * x + 24631) % 116640;
-	return x;
-}
-
-std::vector<int> create_vector(int N, int chose) {
-	std::vector<int> TMP;
-	if (chose == 1)
-	{
-		for (int i = 0; i < N; i++)
-		{
-			TMP.push_back(lcg());
-		}
-	}
-	else if (chose == 2)
-	{
-		for (int i = 0; i < N; i++)
-		{
-			TMP.push_back(i);
-		}
-
-	}
-	else {
-		for (int i = N; i > 0; i--)
-		{
-			TMP.push_back(i);
-		}
-
-	}
-	return TMP;
-}
 
 stats sorting_choice(std::vector<int> Vector) {
 	auto start = high_resolution_clock::now();
 	bool needing_restart = false;
 	stats A;
-	int min = 0; // äëÿ çàïèñè ìèíèìàëüíîãî çíà÷åíèÿ
-	int buf = 0; // äëÿ îáìåíà çíà÷åíèÿìè 
+	int min = 0; // для записи минимального значения
+	int buf = 0; // для обмена значениями 
 
-	/*********** Íà÷àëî ñîðòèðîâêè **************/
+	/*********** Начало сортировки **************/
 	for (int i = 0; i < Vector.size(); i++)
 	{
 
-		min = i; // çàïîìíèì íîìåð òåêóùåé ÿ÷åéêè, êàê ÿ÷åéêè ñ ìèíèìàëüíûì çíà÷åíèåì
-		// â öèêëå íàéäåì ðåàëüíûé íîìåð ÿ÷åéêè ñ ìèíèìàëüíûì çíà÷åíèåì
+		min = i; // запомним номер текущей ячейки, как ячейки с минимальным значением
+		// в цикле найдем реальный номер ячейки с минимальным значением
 		for (int j = i + 1; j < Vector.size(); j++)
 			min = (Vector[j] < Vector[min]) ? j : min;
 			A.copy_count +=1;
 			A.comparison_count += 1;
-		// cäåëàåì ïåðåñòàíîâêó ýòîãî ýëåìåíòà, ïîìåíÿâ åãî ìåñòàìè ñ òåêóùèì
+		// cделаем перестановку этого элемента, поменяв его местами с текущим
 		if (i != min)
 		{
 			buf = Vector[i];
@@ -103,7 +51,71 @@ stats sorting_shell(std::vector<int> Vector) {
 
 	return A;
 }
+template <typename Iterator>
+stats merge(Iterator begin, Iterator middle, Iterator end)
+{
 
+	vector<typename Iterator::value_type> left_vec(begin, middle), right_vec(middle, end);
+	Iterator left = left_vec.begin(), right = right_vec.begin(), temp = begin;
+
+	stats tmp;
+
+	while (left < left_vec.end() && right < right_vec.end())
+	{
+		tmp.comparison_count++;
+		if (*left <= *right)
+		{
+			*temp = *left;
+			left++;
+		}
+		else
+		{
+			*temp = *right;
+			right++;
+		}
+		temp++;
+		tmp.copy_count++;
+	}
+	while (left < left_vec.end())
+	{
+		*temp = *left;
+		left++;
+		temp++;
+		tmp.copy_count++;
+	}
+	while (right < right_vec.end())
+	{
+		*temp = *right;
+		right++;
+		temp++;
+		tmp.copy_count++;
+	}
+	return tmp;
+}
+
+template <typename Iterator>
+stats natural_merge_sort(Iterator begin, Iterator end)
+{
+	auto start = high_resolution_clock::now();
+	stats empty;
+	if (end - begin <= 1)
+	{
+		return empty;
+	}
+	Iterator middle = begin + (end - begin) / 2;
+	stats left_stats = natural_merge_sort(begin, middle);
+	stats right_stats = natural_merge_sort(middle, end);
+	stats result = merge(begin, middle, end);
+	result.comparison_count += left_stats.comparison_count + right_stats.comparison_count;
+	result.copy_count += left_stats.copy_count + right_stats.copy_count;
+
+	auto finish = high_resolution_clock::now();
+	auto times = duration_cast<microseconds>(finish - start);
+
+	result.time_count = (int)times.count();
+
+	return result;
+}
 void testing(int N, int chosing, int number_circle, int variant_create_vector)
 {
 
@@ -120,12 +132,22 @@ void testing(int N, int chosing, int number_circle, int variant_create_vector)
 			AVG.copy_count += tmp.copy_count;
 			AVG.time += tmp.time;
 		}
-		else  { // shell 
+		else if (chosing==2)  { // shell 
 			tmp = sorting_shell(TMP);
 
 			AVG.comparison_count += tmp.comparison_count;
 			AVG.copy_count += tmp.copy_count;
 			AVG.time += tmp.time;
+		}
+		else {
+			auto iterator1{ TMP.begin() };
+			auto iterator2{ TMP.end() };
+			tmp = natural_merge_sort(iterator1, iterator2);
+
+			AVG.comparison_count += tmp.comparison_count;
+			AVG.copy_count += tmp.copy_count;
+			AVG.time += tmp.time;
+
 		}
 
 		//AVG.comparison_count += tmp->comparison_count ;
@@ -133,18 +155,25 @@ void testing(int N, int chosing, int number_circle, int variant_create_vector)
 		//AVG.time += tmp->time / 100;
 	}
 	std::ofstream out("log.txt", std::ios::app);
-	if (chosing == 1) { // ÁÀÁË
+	if (chosing == 1) { // БАБЛ
 		std::cout << "The  choice sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
 		if (out.is_open())
 		{
 			out << "The  choice sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
 		}
 	}
-	else { // shake 
+	else if (chosing == 2) { // shake 
 		std::cout << "The shell sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
 		if (out.is_open())
 		{
 			out << "The shell sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
+		}
+	}
+	else  { // merge 
+		std::cout << "The natural_merge_sort sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
+		if (out.is_open())
+		{
+			out << "The natural_merge_sort sorting  on vector size " << N << "\t" << AVG.comparison_count / number_circle << " \t" << AVG.copy_count / number_circle << "\t" << AVG.time / number_circle << std::endl;
 		}
 	}
 	
@@ -153,11 +182,11 @@ void testing(int N, int chosing, int number_circle, int variant_create_vector)
 
 }
 int main() {
-	//testing (ðàçìåð âåêòîðà,âûáîð ñîðòèðîâêè, êîëè÷åñòâî öèêëîâ,âûáîð ãåíåðàöèè âåêòîðà)
+	//testing (размер вектора,выбор сортировки, количество циклов,выбор генерации вектора)
 
 	std::cout << "\nAverage value on 100 vectors\n";
-	for (int i = 1; i < 3; i++)
-	{
+	for (int i = 1; i < 4; i++)
+	{//testing (размер вектора,выбор сортировки, количество циклов,выбор генерации вектора)
 		testing(1000, i, 100, 1);
 		testing(2000, i, 100, 1);
 		testing(3000, i, 100, 1);
@@ -168,7 +197,7 @@ int main() {
 	}
 
 	std::cout << "\nValue on sorted vector\n";
-	for (int i = 1; i <3; i++)
+	for (int i = 1; i <4; i++)
 	{
 		testing(1000, i, 1, 2);
 		testing(2000, i, 1, 2);
@@ -180,7 +209,7 @@ int main() {
 	}
 
 	std::cout << "\nValue on reverse-sorted vector\n";
-	for (int i = 1; i < 3; i++)
+	for (int i = 1; i < 4; i++)
 	{
 		testing(1000, i, 1, 3);
 		testing(2000, i, 1, 3);
